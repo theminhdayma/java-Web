@@ -46,6 +46,7 @@ public class DocumentController {
                 model.addAttribute("title", document.getTitle());
                 model.addAttribute("description", document.getDescription());
                 model.addAttribute("fileName", fileName);
+                documentService.save(document);
             } catch (IOException e) {
                 model.addAttribute("message", "Lỗi khi tải lên: " + e.getMessage());
             }
