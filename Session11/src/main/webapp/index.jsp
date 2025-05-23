@@ -11,7 +11,7 @@
 <br/>
 <a href="register">Bài 2 + 3 + 4 + 5 + 6</a>
 <br/>
-<a href="">Bài 7</a>
+<a href="review">Bài 7</a>
 <br/>
 <a href="category">Bài 8 + 9</a>
 <br/>
