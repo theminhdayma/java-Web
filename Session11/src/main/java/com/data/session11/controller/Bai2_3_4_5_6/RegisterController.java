@@ -1,6 +1,6 @@
-package com.data.session11.controller.Bai2;
+package com.data.session11.controller.Bai2_3_4_5_6;
 
-import com.data.session11.model.Bai2.User;
+import com.data.session11.model.Bai2_3_4_5_6.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

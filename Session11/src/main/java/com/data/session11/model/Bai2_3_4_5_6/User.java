@@ -1,4 +1,4 @@
-package com.data.session11.model.Bai2;
+package com.data.session11.model.Bai2_3_4_5_6;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
