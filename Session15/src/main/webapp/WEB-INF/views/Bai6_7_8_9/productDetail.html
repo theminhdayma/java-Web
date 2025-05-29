@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết sản phẩm</title>
+</head>
+<body>
+
+<h2 th:text="'Sản phẩm: ' + ${product.name}"></h2>
+<p><strong>Mô tả:</strong> <span th:text="${product.description}"></span></p>
+
+<h3>Đánh giá người dùng</h3>
+<div th:if="${#lists.isEmpty(reviews)}">
+  <p>Chưa có đánh giá nào.</p>
+</div>
+<ul th:if="${!#lists.isEmpty(reviews)}">
+  <li th:each="r : ${reviews}">
+    <strong>⭐</strong> <span th:text="${r.rating}"></span>/5
+    <br />
+    <em th:text="${r.comment}"></em>
+    <hr/>
+  </li>
+</ul>
+
+<h3>Thêm đánh giá</h3>
+<form th:action="@{/product/review}" method="post" th:object="${newReview}">
+  <input type="hidden" th:field="*{productId}" />
+
+  <label>Rating:</label>
+  <select th:field="*{rating}">
+    <option value="1">1 sao</option>
+    <option value="2">2 sao</option>
+    <option value="3">3 sao</option>
+    <option value="4">4 sao</option>
+    <option value="5">5 sao</option>
+  </select><br/>
+
+  <label>Nhận xét:</label><br/>
+  <textarea th:field="*{comment}" rows="4" cols="40"></textarea><br/>
+
+  <button type="submit">Gửi đánh giá</button>
+</form>
+
+<p><a th:href="@{/product/list}">Quay lại danh sách sản phẩm</a></p>
+
+</body>
+</html>
