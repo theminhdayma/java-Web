@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách chuyến xe</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Danh sách chuyến xe</h1>
+
+<form th:action="@{/home}" method="get">
+    <label>Điểm đi:</label>
+    <input type="text" name="startPoint" placeholder="Nhập điểm đi " />
+    <label>Điểm đến:</label>
+    <input type="text" name="endPoint" placeholder="Nhập điểm đến " />
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tiêu đề</th>
+        <th>Điểm đi</th>
+        <th>Điểm đến</th>
+        <th>Điểm đến cuối</th>
+        <th>Giá</th>
+        <th>Trạng thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="trip : ${trips}">
+        <td th:text="${trip.id}">ID</td>
+        <td th:text="${trip.title}">Tiêu đề</td>
+        <td th:text="${trip.startPoint}">Điểm đi</td>
+        <td th:text="${trip.endPoint}">Điểm đến</td>
+        <td th:text="${trip.description}">Điểm đến cuối</td>
+        <td th:text="${trip.price}">Giá</td>
+        <td th:text="${trip.status}">Trạng thái</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
