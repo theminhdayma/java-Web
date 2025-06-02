@@ -1,14 +1,11 @@
 package com.data.session16.controller;
 
-import com.data.session16.dto.BusDto;
 import com.data.session16.model.Bus;
 import com.data.session16.model.BusType;
-import com.data.session16.model.Seat;
 import com.data.session16.service.BusService;
+import com.data.session16.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -21,78 +18,89 @@ public class BusController {
     @Autowired
     private SeatService seatService;
 
+    // ✅ Hiển thị danh sách tất cả các xe buýt
     @GetMapping
-    public String showAllBuses(Model model) {
-        model.addAttribute("buses", busService.getAllBuses());
-        return "bus/list";
+    public String listBus(Model model) {
+        List<Bus> list = busService.getAll();
+        model.addAttribute("listBuses", list);
+        return "list_buses";
     }
 
+    // ✅ Hiển thị form thêm mới xe buýt
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("busDto", new BusDto());
-        model.addAttribute("busTypes", BusType.values());
-        return "bus/add";
+        model.addAttribute("bus", new Bus());
+        return "add_bus";
     }
 
+    // ✅ Xử lý thêm mới xe buýt và tạo ghế
     @PostMapping("/add")
-    public String addBus(@Valid @ModelAttribute("busDto") BusDto busDto,
-                         BindingResult result,
-                         Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("busTypes", BusType.values());
-            return "bus/add";
+    public String addBus(@ModelAttribute("bus") Bus bus) {
+        // Tính tổng ghế
+        int totalSeat = bus.getRowSeat() * bus.getColSeat();
+        bus.setTotalSeat(totalSeat);
+
+        // Lưu xe buýt
+        busService.addBus(bus);
+
+        // Tự động tạo ghế cho xe buýt
+        int seatNumber = 1;
+        int price;
+
+        switch (bus.getBusType()) {
+            case "NORMAL":
+                price = 100000;
+                break;
+            case "VIP":
+                price = 150000;
+                break;
+            case "LUXURY":
+                price = 200000;
+                break;
+            default:
+                price = 100000;
         }
 
-        String imageUrl = UploadUtils.uploadImage(busDto.getImage());
-        Bus bus = new Bus();
-        bus.setLicensePlate(busDto.getLicensePlate());
-        bus.setBusType(busDto.getBusType());
-        bus.setRowSeat(busDto.getRowSeat());
-        bus.setColSeat(busDto.getColSeat());
-        bus.setTotalSeat(busDto.getRowSeat() * busDto.getColSeat());
-        bus.setImage(imageUrl);
-
-        if (busService.addBus(bus)) {
-            // Khởi tạo danh sách ghế tương ứng
-            int totalSeats = bus.getTotalSeat();
-            for (int i = 0; i < totalSeats; i++) {
+        for (int i = 0; i < bus.getRowSeat(); i++) {
+            for (int j = 0; j < bus.getColSeat(); j++) {
                 Seat seat = new Seat();
-                seat.setNameSeat("S" + (i + 1));
+                seat.setNameSeat("R" + (i + 1) + "C" + (j + 1));
                 seat.setBusId(bus.getId());
-                seat.setStatus(false);
-
-                double price = switch (bus.getBusType()) {
-                    case NORMAL -> 100_000;
-                    case VIP -> 150_000;
-                    case LUXURY -> 200_000;
-                };
                 seat.setPrice(price);
-                seatService.addSeat(seat);
+                seat.setStatus("AVAILABLE");
+
+                seatService.addSeat(bus.getId(), seatNumber++, seat.getNameSeat(), price);
             }
         }
 
         return "redirect:/bus";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model) {
-        Bus bus = busService.getBusById(id);
-        if (bus == null) return "redirect:/bus";
-        model.addAttribute("bus", bus);
-        model.addAttribute("busTypes", BusType.values());
-        return "bus/edit";
+    // ✅ Hiển thị form cập nhật xe buýt
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable("id") int id, Model model) {
+        Bus bus = busService.findById(id);
+        if (bus != null) {
+            model.addAttribute("bus", bus);
+            return "update_bus";
+        } else {
+            return "redirect:/bus";
+        }
     }
 
-    @PostMapping("/edit")
-    public String updateBus(@ModelAttribute Bus bus) {
+    // ✅ Xử lý cập nhật xe buýt
+    @PostMapping("/update")
+    public String updateBus(@ModelAttribute("bus") Bus bus) {
         bus.setTotalSeat(bus.getRowSeat() * bus.getColSeat());
         busService.updateBus(bus);
         return "redirect:/bus";
     }
 
+    // ✅ Xóa xe buýt theo ID
     @GetMapping("/delete/{id}")
-    public String deleteBus(@PathVariable int id) {
+    public String deleteBus(@PathVariable("id") int id) {
         busService.deleteBus(id);
+        seatService.deleteSeatsByBusId(id); // Xóa ghế liên quan nếu cần
         return "redirect:/bus";
     }
 }

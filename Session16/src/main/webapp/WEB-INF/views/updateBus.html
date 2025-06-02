@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Cập nhật xe buýt</title>
+</head>
+<body>
+<h1>Cập nhật thông tin xe</h1>
+<form th:action="@{/bus/update}" th:object="${bus}" method="post">
+  <input type="hidden" th:field="*{id}" />
+  Biển số: <input type="text" th:field="*{licensePlate}" required/><br/>
+  Loại xe:
+  <select th:field="*{busType}">
+    <option value="NORMAL" th:selected="${bus.busType == 'NORMAL'}">NORMAL</option>
+    <option value="VIP" th:selected="${bus.busType == 'VIP'}">VIP</option>
+    <option value="LUXURY" th:selected="${bus.busType == 'LUXURY'}">LUXURY</option>
+  </select><br/>
+  Số hàng ghế: <input type="number" th:field="*{rowSeat}" required/><br/>
+  Số cột ghế: <input type="number" th:field="*{colSeat}" required/><br/>
+  Hình ảnh (URL): <input type="text" th:field="*{image}" required/><br/>
+
+  <button type="submit">Cập nhật</button>
+</form>
+<a th:href="@{/bus}">Quay lại</a>
+</body>
+</html>

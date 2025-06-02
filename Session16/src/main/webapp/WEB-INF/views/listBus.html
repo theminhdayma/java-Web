@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách xe buýt</title>
 </head>
 <body>
+<h1>Danh sách xe buýt</h1>
 
+<a th:href="@{/bus/add}">Thêm xe mới</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Biển số</th>
+        <th>Loại xe</th>
+        <th>Hàng ghế</th>
+        <th>Cột ghế</th>
+        <th>Tổng ghế</th>
+        <th>Hình ảnh</th>
+        <th>Hành động</th>
+    </tr>
+    <tr th:each="bus : ${listBuses}">
+        <td th:text="${bus.id}"></td>
+        <td th:text="${bus.licensePlate}"></td>
+        <td th:text="${bus.busType}"></td>
+        <td th:text="${bus.rowSeat}"></td>
+        <td th:text="${bus.colSeat}"></td>
+        <td th:text="${bus.totalSeat}"></td>
+        <td><img th:src="${bus.image}" width="100"/></td>
+        <td>
+            <a th:href="@{'/bus/update/' + ${bus.id}}">Sửa</a> |
+            <a th:href="@{'/bus/delete/' + ${bus.id}}" onclick="return confirm('Xóa xe này?')">Xóa</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
