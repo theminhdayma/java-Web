@@ -53,8 +53,7 @@ public class ProfileController {
 
         updatedCustomer.setId(current.getId());
         updatedCustomer.setRole(current.getRole());
-        updatedCustomer.setStatus(current.getStatus());
-        customerService.updateCustomer(updatedCustomer);
+        updatedCustomer.setStatus(current.isStatus());
 
         session.setAttribute("customer", updatedCustomer);
         return "redirect:/profile";

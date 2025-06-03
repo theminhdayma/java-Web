@@ -18,7 +18,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int customerId;
-    private String recipientName;
+    private String recipientName; 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<ProductCart> listProduct;
     private String phoneNumber;
