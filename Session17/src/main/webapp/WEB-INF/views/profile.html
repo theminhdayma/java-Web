@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang cá nhân</title>
+</head>
+<body>
+<h2>Thông tin cá nhân</h2>
+<form th:action="@{/profile/update}" method="post" th:object="${customer}">
+    <label>Username: <input type="text" th:field="*{username}" readonly/></label><br>
+    <label>Email: <input type="email" th:field="*{email}"/></label><br>
+    <label>Phone: <input type="text" th:field="*{phoneNumber}"/></label><br>
+    <button type="submit">Cập nhật</button>
+</form>
+
+<hr>
+
+<h2>Lịch sử đơn hàng</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Mã đơn</th>
+        <th>Người nhận</th>
+        <th>SDT</th>
+        <th>Địa chỉ</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.recipientName}"></td>
+        <td th:text="${order.phoneNumber}"></td>
+        <td th:text="${order.address}"></td>
+        <td th:text="${order.totalMoney} + ' VND'"></td>
+        <td th:text="${order.status}"></td>
+        <td>
+            <form th:action="@{'/order/cancel/' + ${order.id}}" method="post"
+                  th:if="${order.status.equals('Chờ xử lý')}">
+                <button type="submit">Hủy đơn</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div>
+    <span th:text="'Trang ' + (${currentPage} + 1) + '/' + ${totalPages}"></span><br>
+    <a th:href="@{'/profile?page=' + (${currentPage} - 1)}" th:if="${currentPage > 0}">Trước</a>
+    <a th:href="@{'/profile?page=' + (${currentPage} + 1)}" th:if="${currentPage + 1 < totalPages}">Sau</a>
+</div>
+
+</body>
+</html>

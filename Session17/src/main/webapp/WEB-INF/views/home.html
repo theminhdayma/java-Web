@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<style>
+    .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start;
+    }
+
+    .product-item {
+        border: 1px solid gray;
+        padding: 10px;
+        width: 220px;
+        box-sizing: border-box;
+    }
+
+    .product-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+</style>
+
+<body>
+<h2>Danh sách sản phẩm</h2>
+
+<div class="product-grid">
+    <div class="product-item" th:each="product : ${products}">
+        <h3 th:text="${product.productName}"></h3>
+        <img th:src="@{${product.image}}" alt="Ảnh sản phẩm"/>
+        <p th:text="'Giá: ' + ${product.price} + ' VND'"></p>
+        <p th:text="${product.description}"></p>
+        <a th:href="@{'/product/' + ${product.id}}">Xem chi tiết</a>
+    </div>
+</div>
+
+
+<!-- Phân trang -->
+<div>
+    <span th:if="${hasPrev}">
+        <a th:href="@{/home(page=${currentPage - 1}, size=${size})}">Trước</a>
+    </span>
+
+    <span th:text="${currentPage + 1}">1</span> /
+    <span th:text="${totalPages}">1</span>
+
+    <span th:if="${hasNext}">
+        <a th:href="@{/home(page=${currentPage + 1}, size=${size})}">Sau</a>
+    </span>
+</div>
+
+</body>
+</html>
