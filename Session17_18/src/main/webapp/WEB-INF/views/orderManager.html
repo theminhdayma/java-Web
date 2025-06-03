@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý đơn hàng</title>
+</head>
+<body>
+<h2>Quản lý đơn hàng</h2>
+<form method="get" action="/admin/orderManager">
+    <input type="text" name="recipientName" placeholder="Recipient Name" />
+    <select name="status">
+        <option value="">-- All Statuses --</option>
+        <option value="PENDING">Pending</option>
+        <option value="PROCESSING">Processing</option>
+        <option value="COMPLETED">Completed</option>
+        <option value="CANCELED">Canceled</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<table border="1" cellpadding="10" cellspacing="0" width="100%">
+    <thead style="background-color: #f0f0f0;">
+    <tr>
+        <th>ID</th>
+        <th>Khách hàng</th>
+        <th>Ngày đặt</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.customer.fullName}"></td>
+        <td th:text="${#dates.format(order.date, 'dd/MM/yyyy')}"></td>
+        <td th:text="${order.totalAmount} + ' VNĐ'"></td>
+        <td th:text="${order.status}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
