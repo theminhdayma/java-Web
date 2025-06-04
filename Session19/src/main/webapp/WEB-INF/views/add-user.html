@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Thêm mới người dùng</h2>
+
+<form action="create" method="post" th:object="${user}" enctype="multipart/form-data">
+    <div>
+        <label for="firstName">Họ</label>
+        <input type="text" id="firstName" placeholder="Nhập họ" th:field="*{firstName}">
+        <br>
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red"></p>
+    </div>
+    <div>
+        <label for="lastName">Tên</label>
+        <input type="text" id="lastName" placeholder="Nhập tên" th:field="*{lastName}">
+        <br>
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red"></p>
+    </div>
+    <div>
+        <label for="phone">Số điên thoại</label>
+        <input type="text" id="phone" placeholder="Nhập số điện thoại" th:field="*{phone}">
+    </div>
+    <div>
+        <label for="address">Địa chỉ</label>
+        <input type="text" id="address" placeholder="Nhập địa chỉ" th:field="*{address}">
+    </div>
+    <div>
+        <label for="fileImage">Hình ảnh</label>
+        <input type="file" id="fileImage" th:field="*{file}">
+        <br>
+        <p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color: red"></p>
+    </div>
+    <br>
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>
