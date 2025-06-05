@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+
+<h1>🎬 Danh sách phim</h1>
+<a href="/">back</a>
+<a th:href="@{/movies/form}">➕ Thêm phim mới</a>
+<br><br>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Poster</th>
+        <th>Tên phim</th>
+        <th>Đạo diễn</th>
+        <th>Năm</th>
+        <th>Thể loại</th>
+        <th>Thời lượng</th>
+        <th>Ngôn ngữ</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie : ${movies}">
+        <td th:text="${movie.id}"></td>
+        <td>
+            <img th:src="@{${movie.poster}}" alt="Poster" width="100" th:if="${movie.poster != null}" />
+            <span th:if="${movie.poster == null}">Chưa có</span>
+        </td>
+        <td th:text="${movie.title}"></td>
+        <td th:text="${movie.director}"></td>
+        <td th:text="${movie.releaseYear}"></td>
+        <td th:text="${movie.genre}"></td>
+        <td th:text="${movie.duration} + ' phút'"></td>
+        <td th:text="${movie.language}"></td>
+        <td th:text="${movie.status} ? '✅ Hiện' : '❌ Ẩn'"></td>
+        <td>
+            <a th:href="@{/movies/form(id=${movie.id})}">✏️ Sửa</a>
+            <a th:href="@{'/movies/delete/' + ${movie.id}}" onclick="return confirm('Xoá thật hả?')">🗑️ Xoá</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

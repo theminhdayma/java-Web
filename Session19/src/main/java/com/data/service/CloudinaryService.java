@@ -11,15 +11,13 @@ import java.util.Map;
 
 @Service
 public class CloudinaryService {
-    private final Cloudinary cloudinary;
 
     @Autowired
-    public CloudinaryService(Cloudinary cloudinary) {
-        this.cloudinary = cloudinary;
-    }
+    private Cloudinary cloudinary;
 
-    public String uploadFile(MultipartFile file) throws IOException {
-        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-        return (String) uploadResult.get("secure_url");
+    public String uploadFile(MultipartFile file) throws IOException{
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("folder", "movie-posters"));
+        return uploadResult.get("secure_url").toString();
     }
 }

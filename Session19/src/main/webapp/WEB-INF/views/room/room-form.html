@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1 th:text="${room.id == null ? 'Thêm mới' : 'Chỉnh sửa'} + ' phòng chiếu'"></h1>
+<form th:action="@{${room.id == null ? '/rooms/add' : '/rooms/edit'}}" th:object="${room}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label>Tên phòng:</label>
+    <input type="text" th:field="*{roomName}" required />
+
+    <label>Loại màn hình:</label>
+    <input type="text" th:field="*{screenType}" required />
+
+    <label>Sức chứa:</label>
+    <input type="number" th:field="*{capacity}" min="1" required />
+
+    <button type="submit">Lưu</button>
+</form>
+
+</body>
+</html>

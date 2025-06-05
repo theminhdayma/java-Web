@@ -8,12 +8,12 @@ import javax.servlet.Filter;
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{AppConfig.class};
+        return new Class<?>[]{AppConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[0];
+        return null;
     }
 
     @Override
@@ -21,11 +21,13 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         return new String[]{"/"};
     }
 
+    // config UTF 8 cho servlet
     @Override
     protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true); // Bắt buộc encoding cho cả request và response
-        return new Filter[] { characterEncodingFilter };
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+
+        return new Filter[]{filter};
     }
 }

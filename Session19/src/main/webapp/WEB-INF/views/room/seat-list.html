@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h2>Danh sách ghế của phòng <span th:text="${room.getRoomName()}"></span></h2>
+
+<div class="seat-grid">
+    <div th:each="seat : ${seats}"
+         th:class="'seat ' + (seat.status ? 'active' : 'inactive')"
+         th:text="${seat.seatName}">
+    </div>
+</div>
+
+<br>
+<a href="/rooms">Quay lại danh sách phòng</a>
+</body>
+</html>

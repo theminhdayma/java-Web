@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+<form th:action="@{/movies/form}" method="post" enctype="multipart/form-data" th:object="${movie}">
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Tên phim:</label>
+    <input type="text" th:field="*{title}" />
+    <p style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+    <label>Đạo diễn:</label>
+    <input type="text" th:field="*{director}" />
+    <p style="color: red" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></p>
+
+    <label>Năm phát hành:</label>
+    <input type="number" th:field="*{releaseYear}" />
+    <p style="color: red" th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"></p>
+
+    <label>Thể loại:</label>
+    <input type="text" th:field="*{genre}" />
+
+    <label>Thời lượng (phút):</label>
+    <input type="number" th:field="*{duration}" />
+    <p style="color: red" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></p>
+
+    <label>Ngôn ngữ:</label>
+    <input type="text" th:field="*{language}" />
+
+    <label>Poster:</label>
+    <input type="file" name="file" />
+    <p style="color: red" th:if="${uploadError}" th:text="${uploadError}"></p>
+
+    <label>Trạng thái:</label>
+    <input type="checkbox" th:field="*{status}" /> Hiển thị
+
+    <button type="submit" th:text="${movie.id} != null ? 'Cập nhật' : 'Thêm mới'"></button>
+    <button type="button" onclick="window.location.href='/movies'">Quay lại</button>
+</form>
+
+
+</body>
+</html>

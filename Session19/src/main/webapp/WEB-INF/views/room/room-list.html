@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Danh sách phòng chiếu</h1>
+<a href="/rooms/add">Thêm phòng chiếu</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Tên phòng</th>
+        <th>Loại màn hình</th>
+        <th>Sức chứa</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="room : ${rooms}">
+        <td th:text="${room.roomName}"></td>
+        <td th:text="${room.screenType}"></td>
+        <td th:text="${room.capacity}"></td>
+        <td th:text="${room.status ? 'Hoạt động' : 'Không hoạt động'}"></td>
+        <td>
+<!--            <a th:href="@{'/rooms/seats/' +  ${room.id}}">Xem ghế</a>-->
+            <a th:href="@{'/rooms/edit/' + ${room.id}}">Sửa</a> |
+            <a th:href="@{'/rooms/delete/' + ${room.id}}"
+               onclick="return confirm('Xác nhận xoá?')">Xoá</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

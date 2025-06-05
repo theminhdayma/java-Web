@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" >
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+<h2 style="text-align: center;">User List</h2>
+<a href="/">Quay lai</a>
+<table th:border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.phoneNumber}"></td>
+        <td th:text="${user.active ? 'Active' : 'Inactive'}"></td>
+        <td>
+            <form th:action="@{/user/change-status}" method="post">
+                <input type="hidden" th:name="id" th:value="${user.id}"/>
+                <input type="hidden" th:name="status" th:value="${!user.active}"/>
+                <button type="submit"
+                        th:text="${user.active ? 'Block' : 'Open'}"
+                        th:classappend="${user.active ? 'btn btn-inactive' : 'btn btn-active'}">
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${totalPages > 1}" class="pagination">
+    <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+       th:href="@{'/user?page=' + ${i}}"
+       th:text="${i}"
+       th:class="${page == i ? 'active' : ''}">
+    </a>
+</div>
+
+</body>
+</html>
